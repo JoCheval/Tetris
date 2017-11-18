@@ -8,8 +8,10 @@
   ******************************************************************************
   */ 
 
+#ifndef __MOVE_H
+#define __MOVE_H
 
-enum BLOCK{O,I,S,Z,L,J,T};
+#include "tetris.h"
 
 struct Next_Shape_Struct{
 	enum BLOCK Type;
@@ -30,4 +32,6 @@ void Rot_Right(void);
 void Rot_Left(void);
 void MV_Down(void);
 void MV_Bottom(void);
-void Next_Shape(void);
+void Get_Next_Shape(void);
+
+#endif //__MOVE_H

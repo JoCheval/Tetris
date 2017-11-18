@@ -10,6 +10,7 @@
       <TargetName>Tetris</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
+      <pCCUsed>5060528::V5.06 update 5 (build 528)::ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -387,9 +388,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>::CMSIS</GroupName>
-        </Group>
-        <Group>
           <GroupName>Drivers/CMSIS</GroupName>
           <Files>
             <File>
@@ -435,37 +433,37 @@
             <File>
               <FileName>DISPLAY.C</FileName>
               <FileType>1</FileType>
-              <FilePath>..\DISPLAY.C</FilePath>
-            </File>
-            <File>
-              <FileName>LCD.C</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LCD.C</FilePath>
-            </File>
-            <File>
-              <FileName>DISPLAY.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\DISPLAY.h</FilePath>
-            </File>
-            <File>
-              <FileName>MOVE.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\MOVE.h</FilePath>
-            </File>
-            <File>
-              <FileName>MOVE.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\MOVE.c</FilePath>
-            </File>
-            <File>
-              <FileName>GRID.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\GRID.h</FilePath>
+              <FilePath>..\Src\DISPLAY.C</FilePath>
             </File>
             <File>
               <FileName>GRID.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\GRID.c</FilePath>
+              <FilePath>..\Src\GRID.c</FilePath>
+            </File>
+            <File>
+              <FileName>MOVE.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\MOVE.c</FilePath>
+            </File>
+            <File>
+              <FileName>shapes.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Src\shapes.h</FilePath>
+            </File>
+            <File>
+              <FileName>LCD.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Src\LCD.h</FilePath>
+            </File>
+            <File>
+              <FileName>LCD.C</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\LCD.C</FilePath>
+            </File>
+            <File>
+              <FileName>tetris.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Src\tetris.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -553,6 +551,9 @@
               <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c</FilePath>
             </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>
     </Target>

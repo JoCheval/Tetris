@@ -5,20 +5,22 @@
   ******************************************************************************
   */
 
-#include "MOVE.h"
-#include "DISPLAY.h"
+#include "tetris.h"
+
+
+//Next_Shape_Struct NextShape;
 
 /**
 * @brief Vérifie si le fond est atteint.
 */
-bool Is_Bottom(void){
-	
+char Is_Bottom(void){
+	return 0;
 }
 /**
 * @brief Vérifie si la pièce peut bouger vers la gauche.
 */
-bool Is_Left_Allowed(void){
-	
+char Is_Left_Allowed(void){
+	return 0;
 }
 /**
 * @brief Bouge la pièce vers la gauche.
@@ -29,8 +31,8 @@ void MV_Left(void){
 /**
 * @brief Vérifie si la pièce peut bouger vers la droite.
 */
-bool Is_Right_Allowed(void){
-	
+char Is_Right_Allowed(void){
+	return 0;
 }
 /**
 * @brief Bouge la pièce vers la droite.
@@ -65,6 +67,6 @@ void MV_Bottom(void){
 /**
 * @brief Copy la prochaine pièce dans «Falling_Shape» et génère une nouvelle pièce dans «Next_Shape».
 */
-void Next_Shape(void){
+void Get_Next_Shape(void){
 	
 }

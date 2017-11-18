@@ -6,13 +6,8 @@
   */
 
 
-#include <stdlib.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include "LCD.h"
-#include "stm32f4xx_hal.h"
-#include "glcdfont.h"
-#include "DISPLAY.h"
+#include "tetris.h"
+
 
 /**
 * @brief Imprime la grille de jeux contenue dans ...
@@ -24,8 +19,6 @@ void Print_Mat(void){
 * @brief Efface l'ancienne position de la pièce et imprime la nouvelle.
 */
 void Print_Shape(void){
-	static BLOCK_info old;
-	extern d;
 	
 	//Effacer old
 	//Imprimer Falling_Shape (d)
