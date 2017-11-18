@@ -5,7 +5,7 @@
   ******************************************************************************
   */
 
-
+#include "LCD.h"
 #include "tetris.h"
 
 
@@ -21,8 +21,10 @@ void Print_Mat(void){
 void Print_Shape(void){
 	
 	//Effacer old
-	//Imprimer Falling_Shape (d)
-	//Copier Falling_Shape dans old.
+	//Imprimer la pièce qui tombe (d)
+	//Copier la pièce actuelle dans old.
+	
+	//-> On update seulement les cases impliquées
 }
 /**
 * @brief Réimprime le score

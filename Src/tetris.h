@@ -47,10 +47,6 @@ extern struct BLOCK_Info {
 //***********************************************//
 // 										Move											 //
 //***********************************************//
-//struct Next_Shape_Struct{
-//	enum BLOCK Type;
-//	int color;
-//} Next_Shape;
 
 void MV_Left(void);
 void MV_Right(void);
@@ -87,6 +83,16 @@ char Is_At_Top(void);
 
 void Beep_PieceAuFond(void);
 void Son_LigneComplete(void);
+
+
+//***********************************************//
+// 									COMMANDS										 //
+//***********************************************//
+
+//Bouttons
+int Get_Key(void);
+void Handle_Key(int key);
+//Ultra Sons
 
 
 #endif //__TETRIS_H

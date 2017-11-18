@@ -470,6 +470,11 @@
               <FileType>1</FileType>
               <FilePath>..\Src\SOUNDS.c</FilePath>
             </File>
+            <File>
+              <FileName>COMMANDS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\COMMANDS.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
