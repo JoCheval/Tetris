@@ -11,6 +11,7 @@
 "tetris\grid.o"
 "tetris\move.o"
 "tetris\lcd.o"
+"tetris\sounds.o"
 "tetris\stm32f4xx_hal_pwr_ex.o"
 "tetris\stm32f4xx_hal_adc.o"
 "tetris\stm32f4xx_hal_flash_ramfunc.o"

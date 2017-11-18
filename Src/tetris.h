@@ -81,4 +81,12 @@ void Pop_Lines(int linesFilled);
 void Add_Shape(void);
 char Is_At_Top(void);
 
+//***********************************************//
+// 										SOUNDS										 //
+//***********************************************//
+
+void Beep_PieceAuFond(void);
+void Son_LigneComplete(void);
+
+
 #endif //__TETRIS_H

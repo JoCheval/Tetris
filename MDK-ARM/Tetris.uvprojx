@@ -465,6 +465,11 @@
               <FileType>5</FileType>
               <FilePath>..\Src\tetris.h</FilePath>
             </File>
+            <File>
+              <FileName>SOUNDS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\SOUNDS.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
