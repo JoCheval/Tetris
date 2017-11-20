@@ -1,0 +1,50 @@
+PC0: Réservé
+PC1: LCD
+PC2: LCD
+PC3: LCD
+PC4: LCD
+PC5: LCD
+PC6: LCD
+PC7: LCD
+PC8: Boutton C1 - GPIO_EXTI8 - pull up
+PC9: Boutton C2 - GPIO_EXTI9 - pull up
+PC10: Boutton C3 - GPIO_EXTI10 - pull up
+PC11: Boutton C4 - GPIO_EXTI11 - pull up
+PC12: 
+PC13: 
+PC14: 
+PC15:
+
+PA0: Réservé
+PA1:
+PA2:
+PA3:
+PA4:
+PA5:
+PA6:
+PA7:
+PA8:
+PA9:
+PA10:
+PA11:
+PA12:
+PA13:
+PA14:
+PA15: 
+
+PB0: Réservé
+PB1:
+PB2:
+PB3:
+PB4:
+PB5:
+PB6:
+PB7:
+PB8:
+PB9:
+PB10:
+PB11:
+PB12: Boutton L1 - GPIO output - open-drain
+PB13: Boutton L2 - GPIO output - open-drain
+PB14: Boutton L3 - GPIO output - open-drain
+PB15: Boutton L4 - GPIO output - open-drain
