@@ -5,7 +5,7 @@
 #include "stm32f4xx_hal.h"
 #include "glcdfont.h"
 
-#define SUPPORT_ECRAN_1
+#define SUPPORT_ECRAN_2
 #define TFTWIDTH   240
 #define TFTHEIGHT  320
 
