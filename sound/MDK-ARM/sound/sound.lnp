@@ -1,0 +1,24 @@
+--cpu=Cortex-M4.fp
+"sound\stm32f4xx_it.o"
+"sound\main.o"
+"sound\stm32f4xx_hal_msp.o"
+"sound\stm32f4xx_hal_flash_ramfunc.o"
+"sound\stm32f4xx_hal_tim_ex.o"
+"sound\stm32f4xx_hal_dma.o"
+"sound\stm32f4xx_hal_pwr.o"
+"sound\stm32f4xx_hal_tim.o"
+"sound\stm32f4xx_hal_flash_ex.o"
+"sound\stm32f4xx_hal_dma_ex.o"
+"sound\stm32f4xx_hal_pwr_ex.o"
+"sound\stm32f4xx_hal_cortex.o"
+"sound\stm32f4xx_hal_gpio.o"
+"sound\stm32f4xx_hal_rcc.o"
+"sound\stm32f4xx_hal.o"
+"sound\stm32f4xx_hal_flash.o"
+"sound\stm32f4xx_hal_rcc_ex.o"
+"sound\system_stm32f4xx.o"
+"sound\startup_stm32f401xe.o"
+--library_type=microlib --strict --scatter "sound\sound.sct"
+--diag_suppress=L6329 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "sound.map" -o sound\sound.axf
