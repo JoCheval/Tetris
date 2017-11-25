@@ -40,15 +40,22 @@
 #include "stm32f4xx_hal.h"
 
 /* USER CODE BEGIN Includes */
+#define NONOTE htim4.Instance->PSC=0
 #define DOTEN HAL_Delay(quarter*3/4);
+#define TRIPA HAL_Delay(quarter*2/3 - 50);NONOTE;HAL_Delay(50);
+#define TRIPB HAL_Delay(quarter/3);
 #define EIGHN HAL_Delay(quarter/2);
+#define EIGHNS HAL_Delay(quarter/2 -50);NONOTE;HAL_Delay(50);
 #define DOTQN HAL_Delay(quarter*3/2);
 #define QUARN HAL_Delay(quarter);
+#define QUARNS HAL_Delay(quarter-50);NONOTE;HAL_Delay(50);
 #define DOTHN HAL_Delay(quarter*3);
 #define HALFN HAL_Delay(quarter*2);
 #define WHOLN HAL_Delay(quarter*4);
+#define SIXN HAL_Delay(quarter*3-50);NONOTE;HAL_Delay(50);
 #define CHPSC htim4.Instance->PSC=note
-#define NONOTE htim4.Instance->PSC=0
+#define CHPSC2 htim4.Instance->PSC=note2
+#define CHPSC3 htim4.Instance->PSC=note3
 #define ADSR htim4.Instance->CCR1
 #define ARRVAL htim4.Instance->ARR
 /* USER CODE END Includes */
@@ -61,29 +68,7 @@ TIM_HandleTypeDef htim4;
 const char tablesize=14;
 const char sintable[tablesize] = {4,6,7,8,8,7,6,4,2,1,0,0,1,2};
 //char notectr = 0;
-const int quarter = 545;
-int attack = quarter/7;
-int decay = quarter/5;
-int sustain = quarter/3;
-int release = quarter*3/2;
-
-/*const int note[15] = {
-2309.200525, // Bb4
-2057.142526, // C5
-1832.591128, // D5
-1729.691968, // Eb5
-1540.853616, // F5
-1372.643895, // G5
-1222.776224, // A5
-1154.087873, // Bb5
-1028.071263, // C6
-915.7955638, // D6
-864.3390306, // Eb6
-769.932327, // F6
-685.8219473, // G6
-610.8881119, // A6
-576.5439367 // Bb6
-};*/
+	
 const int note[15] = {
 2746.252747, // G4
 2446.552448, // A4
@@ -100,6 +85,37 @@ const int note[15] = {
 815.7727791, // E6
 726.6605609, // F#6
 685.8219473, // G6
+};
+
+const int note2[17] = {
+1729.691968, // Eb5
+2057.142526, // C5
+1832.591128,
+1632.557948,
+1540.853616,
+1372.643895, // G5
+1222.776224,
+1089.256919,
+1028.071263, // C6
+915.7955638,
+815.7727791,
+769.932327,
+685.8219473,
+610.8881119,
+544.1312189,
+513.5356316, // C7
+864.3390306 // Eb6
+};
+const int note3[9] = {
+538.2335483,
+8231.727444, // C3
+7333.489389,
+6533.330908, // E3
+6166.591071,
+5493.505495, // G3
+4894.104895,
+4360.071827,
+4115.206387
 };
 char sample = 0;
 /* USER CODE END PV */
@@ -173,7 +189,15 @@ HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-/*for(int i=2;i<8;i++)	
+
+//int quarter = 545;
+/*
+int attack = quarter/7;
+int decay = quarter/5;
+int sustain = quarter/3;
+int release = quarter*3/2;
+
+for(int i=2;i<8;i++)	
 {
 	//tone
 	//CHPSC[i];ADSR=39;
@@ -198,6 +222,8 @@ HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);
 	}
 }*/
 //arr 78 ccr1 39
+	// zelda's lullaby
+	/*
 	// A
 	CHPSC[2];HALFN;
 	CHPSC[4];QUARN;
@@ -261,10 +287,127 @@ HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);
 	CHPSC[10];QUARN;
 	CHPSC[14];WHOLN;QUARN;
 	NONOTE;QUARN;
+	*/
+	
+	// green greens (kirby)
+	int quarter = 350;
+	// A
+	CHPSC2[5];TRIPA;
+	CHPSC2[5];TRIPB;
+	CHPSC2[8];SIXN;
+	CHPSC2[8];TRIPA;
+	CHPSC2[10];TRIPB;
+	CHPSC2[12];EIGHN;
+	CHPSC2[15];EIGHN;
+	CHPSC2[14];EIGHN;
+	CHPSC2[13];EIGHN;
+	CHPSC2[12];QUARN;
+	CHPSC2[10];TRIPA;
+	CHPSC2[12];TRIPB;
+	CHPSC2[11];QUARN;
+	CHPSC2[9];TRIPA;
+	CHPSC2[10];TRIPB;
+	CHPSC2[9];QUARN;
+	CHPSC2[10];TRIPA;
+	CHPSC2[9];TRIPB;
+	CHPSC2[8];SIXN;
+	
+	// A
+	CHPSC2[5];TRIPA;
+	CHPSC2[5];TRIPB;
+	CHPSC2[8];SIXN;
+	CHPSC2[8];TRIPA;
+	CHPSC2[10];TRIPB;
+	CHPSC2[12];EIGHN;
+	CHPSC2[15];EIGHN;
+	CHPSC2[14];EIGHN;
+	CHPSC2[13];EIGHN;
+	CHPSC2[12];QUARN;
+	CHPSC2[10];TRIPA;
+	CHPSC2[12];TRIPB;
+	CHPSC2[11];QUARN;
+	CHPSC2[9];TRIPA;
+	CHPSC2[10];TRIPB;
+	CHPSC2[9];QUARN;
+	CHPSC2[10];TRIPA;
+	CHPSC2[9];TRIPB;
+	CHPSC2[8];SIXN;QUARNS;
+	
+	// B
+	CHPSC2[8];QUARN;
+	CHPSC2[9];EIGHN;
+	CHPSC2[10];QUARN;
+	CHPSC2[8];EIGHN;
+	CHPSC2[9];EIGHN;
+	CHPSC2[8];EIGHN;
+	// bass line
+	CHPSC3[1];EIGHN;
+	CHPSC3[5];EIGHNS;
+	CHPSC3[5];EIGHNS;
+	CHPSC3[5];EIGHNS;
+	CHPSC3[5];EIGHNS;
+	CHPSC3[5];EIGHNS;
+	CHPSC3[5];EIGHNS;
+	CHPSC3[5];EIGHNS;
+	CHPSC3[1];EIGHN;
+	CHPSC3[5];EIGHNS;
+	CHPSC3[5];EIGHNS;
+	CHPSC3[5];EIGHNS;
+	CHPSC3[5];EIGHNS;
+	CHPSC3[5];EIGHNS;
+	CHPSC3[5];EIGHNS;
+	CHPSC3[5];EIGHNS;
+	
+	// C
+	CHPSC2[0];QUARN;
+	CHPSC2[2];TRIPA;
+	CHPSC2[0];TRIPB;
+	CHPSC2[4];QUARN;
+	CHPSC2[0];TRIPA;
+	CHPSC2[4];TRIPB;
+	CHPSC2[5];QUARN;
+	CHPSC2[4];TRIPA;
+	CHPSC2[5];TRIPB;
+	CHPSC2[1];QUARNS;
+	CHPSC2[1];TRIPA;
+	CHPSC2[2];TRIPB;
+	CHPSC2[0];QUARN;
+	CHPSC2[2];TRIPA;
+	CHPSC2[0];TRIPB;
+	CHPSC2[4];QUARN;
+	CHPSC2[0];TRIPA;
+	CHPSC2[4];TRIPB;
+	CHPSC2[5];HALFN;
+	CHPSC2[8];QUARNS;
+	
+	// D
+	CHPSC2[8];TRIPA;
+	CHPSC2[9];TRIPB;
+	CHPSC2[16];QUARN;
+	CHPSC2[9];TRIPA;
+	CHPSC2[16];TRIPB;
+	CHPSC2[11];QUARN;
+	CHPSC2[16];TRIPA;
+	CHPSC2[11];TRIPB;
+	CHPSC2[12];QUARN;
+	CHPSC2[11];TRIPA;
+	CHPSC2[12];TRIPB;
+	CHPSC2[8];QUARNS;
+	CHPSC2[8];TRIPA;
+	CHPSC2[9];TRIPB;
+	CHPSC2[16];QUARN;
+	CHPSC2[9];TRIPA;
+	CHPSC2[16];TRIPB;
+	CHPSC2[11];QUARN;
+	CHPSC2[16];TRIPA;
+	CHPSC2[11];TRIPB;
+	CHPSC2[9];HALFN;
+	CHPSC2[12];QUARN;
 	
 	}
-  /* USER CODE END 3 */
+	
 
+  /* USER CODE END 3 */
 }
 
 /** System Clock Configuration
