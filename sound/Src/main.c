@@ -56,7 +56,7 @@
 #define CHPSC htim4.Instance->PSC=note
 #define CHPSC2 htim4.Instance->PSC=note2
 #define CHPSC3 htim4.Instance->PSC=note3
-#define ADSR htim4.Instance->CCR1
+#define CHPSC4 htim4.Instance->PSC=note4
 #define ARRVAL htim4.Instance->ARR
 /* USER CODE END Includes */
 
@@ -116,6 +116,30 @@ const int note3[9] = {
 4894.104895,
 4360.071827,
 4115.206387
+};
+
+const int note4[19] = {
+7333.489389,
+6533.330908,
+6166.591071,
+//5493.505495, // G3
+5185.241642, // G#3
+4894.104895,
+4360.071827,
+4115.206387,
+3666.244694,
+3266.066338,
+3082.707233,
+//2746.252747, // G4
+2592.120821, // G#4
+2446.552448,
+2179.535913,
+2057.142526,
+1832.591128,
+1632.557948, // E5
+1540.853616,
+1372.643895,
+1222.776224 // A5
 };
 char sample = 0;
 /* USER CODE END PV */
@@ -190,7 +214,7 @@ HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);
 
   /* USER CODE BEGIN 3 */
 
-//int quarter = 545;
+//
 /*
 int attack = quarter/7;
 int decay = quarter/5;
@@ -223,7 +247,7 @@ for(int i=2;i<8;i++)
 }*/
 //arr 78 ccr1 39
 	// zelda's lullaby
-	/*
+	int quarter = 545;
 	// A
 	CHPSC[2];HALFN;
 	CHPSC[4];QUARN;
@@ -287,10 +311,11 @@ for(int i=2;i<8;i++)
 	CHPSC[10];QUARN;
 	CHPSC[14];WHOLN;QUARN;
 	NONOTE;QUARN;
-	*/
 	
+	NONOTE;HAL_Delay(1000);
+
 	// green greens (kirby)
-	int quarter = 350;
+	quarter = 350;
 	// A
 	CHPSC2[5];TRIPA;
 	CHPSC2[5];TRIPB;
@@ -404,10 +429,77 @@ for(int i=2;i<8;i++)
 	CHPSC2[9];HALFN;
 	CHPSC2[12];QUARN;
 	
-	}
+	NONOTE;HAL_Delay(1000);
 	
-
-  /* USER CODE END 3 */
+	// Tetris
+	quarter = 375;
+	// A
+	CHPSC4[15];QUARN;
+	CHPSC4[12];EIGHN;
+	CHPSC4[13];EIGHN;
+	CHPSC4[14];QUARN;
+	CHPSC4[13];EIGHN;
+	CHPSC4[12];EIGHN;
+	CHPSC4[11];QUARNS;
+	CHPSC4[11];EIGHN;
+	CHPSC4[13];EIGHN;
+	CHPSC4[15];QUARN;
+	CHPSC4[14];EIGHN;
+	CHPSC4[13];EIGHN;
+	CHPSC4[12];QUARNS;
+	CHPSC4[12];EIGHN;
+	CHPSC4[13];EIGHN;
+	CHPSC4[14];QUARN;
+	CHPSC4[15];QUARN;
+	CHPSC4[13];QUARN;
+	CHPSC4[11];QUARNS;
+	CHPSC4[11];QUARN;
+	NONOTE;QUARN;
+	
+	CHPSC4[14];DOTQN;
+	CHPSC4[16];EIGHN;
+	CHPSC4[18];QUARN;
+	CHPSC4[17];EIGHN;
+	CHPSC4[16];EIGHN;
+	CHPSC4[15];DOTQN;
+	CHPSC4[13];EIGHN;
+	CHPSC4[15];QUARN;
+	CHPSC4[14];EIGHN;
+	CHPSC4[13];EIGHN;
+	
+	CHPSC4[12];QUARNS;
+	CHPSC4[12];EIGHN;
+	CHPSC4[13];EIGHN;
+	CHPSC4[14];QUARN;
+	CHPSC4[15];QUARN;
+	CHPSC4[13];QUARN;
+	CHPSC4[11];QUARNS;
+	CHPSC4[11];QUARN;
+	NONOTE;QUARN;
+	CHPSC4[8];HALFN;
+	CHPSC4[6];HALFN;
+	CHPSC4[7];HALFN;
+	CHPSC4[5];HALFN;
+	
+	CHPSC4[6];HALFN;
+	CHPSC4[4];HALFN;
+	CHPSC4[3];HALFN; // sharp this
+	CHPSC4[5];HALFN;
+	
+	CHPSC4[8];HALFN;
+	CHPSC4[6];HALFN;
+	CHPSC4[7];HALFN;
+	CHPSC4[5];HALFN;
+	CHPSC4[6];QUARN;
+	CHPSC4[8];QUARN;
+	CHPSC4[11];QUARN;
+	CHPSC4[11];QUARNS;
+	CHPSC4[10];WHOLN; // sharp this
+	
+	NONOTE;HAL_Delay(1000);
+	
+	}
+	/* USER CODE END 3 */
 }
 
 /** System Clock Configuration
