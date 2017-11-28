@@ -36,135 +36,48 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
+
 #include "main.h"
 #include "stm32f4xx_hal.h"
 
 /* USER CODE BEGIN Includes */
-#define NONOTE htim4.Instance->PSC=0
-#define DOTEN HAL_Delay(quarter*3/4);
-#define TRIPA HAL_Delay(quarter*2/3 - 50);NONOTE;HAL_Delay(50);
-#define TRIPB HAL_Delay(quarter/3);
-#define EIGHN HAL_Delay(quarter/2);
-#define EIGHNS HAL_Delay(quarter/2 -50);NONOTE;HAL_Delay(50);
-#define DOTQN HAL_Delay(quarter*3/2);
-#define QUARN HAL_Delay(quarter);
-#define QUARNS HAL_Delay(quarter-50);NONOTE;HAL_Delay(50);
-#define DOTHN HAL_Delay(quarter*3);
-#define HALFN HAL_Delay(quarter*2);
-#define WHOLN HAL_Delay(quarter*4);
-#define SIXN HAL_Delay(quarter*3-50);NONOTE;HAL_Delay(50);
-#define CHPSC htim4.Instance->PSC=note
-#define CHPSC2 htim4.Instance->PSC=note2
-#define CHPSC3 htim4.Instance->PSC=note3
-#define CHPSC4 htim4.Instance->PSC=note4
-#define ARRVAL htim4.Instance->ARR
+
+const int tquarter = 375;
+const int kquarter = 350;
+#include "music.h"
+
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
+
 TIM_HandleTypeDef htim4;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-const char tablesize=14;
-const char sintable[tablesize] = {4,6,7,8,8,7,6,4,2,1,0,0,1,2};
-//char notectr = 0;
-	
-const int note[15] = {
-2746.252747, // G4
-2446.552448, // A4
-2179.535913, // B4
-2057.142526, // C5
-1832.591128, // D5
-1632.557948, // E5
-1454.321122, // F#5
-1372.643895, // G5
-1222.776224, // A5
-1089.256919, // B5
-1028.071263, // C6
-915.7955638, // D6
-815.7727791, // E6
-726.6605609, // F#6
-685.8219473, // G6
-};
 
-const int note2[17] = {
-1729.691968, // Eb5
-2057.142526, // C5
-1832.591128,
-1632.557948,
-1540.853616,
-1372.643895, // G5
-1222.776224,
-1089.256919,
-1028.071263, // C6
-915.7955638,
-815.7727791,
-769.932327,
-685.8219473,
-610.8881119,
-544.1312189,
-513.5356316, // C7
-864.3390306 // Eb6
-};
-const int note3[9] = {
-538.2335483,
-8231.727444, // C3
-7333.489389,
-6533.330908, // E3
-6166.591071,
-5493.505495, // G3
-4894.104895,
-4360.071827,
-4115.206387
-};
-
-const int note4[19] = {
-7333.489389,
-6533.330908,
-6166.591071,
-//5493.505495, // G3
-5185.241642, // G#3
-4894.104895,
-4360.071827,
-4115.206387,
-3666.244694,
-3266.066338,
-3082.707233,
-//2746.252747, // G4
-2592.120821, // G#4
-2446.552448,
-2179.535913,
-2057.142526,
-1832.591128,
-1632.557948, // E5
-1540.853616,
-1372.643895,
-1222.776224 // A5
-};
 char sample = 0;
+volatile int dvp;
+int duration;
+int arsize;
+char playMusic = 1;
+const int *scale;
+const char *notes;
+const int *times;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
+
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_TIM4_Init(void);                                    
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 HAL_StatusTypeDef HAL_TIM_PWM_Start(TIM_HandleTypeDef *htim, uint32_t Channel);
+void playTetrisMusic(void);
+void playKirbyMusic(void);
+//void playZeldaMusic(void); // functionality not implemented cuz it's too slow
+void HAL_SYSTICK_Callback(void);
 
-/**
-  * @brief  PWM Pulse finished callback in non blocking mode 
-  * @param  htim: pointer to a TIM_HandleTypeDef structure that contains
-  *                the configuration information for TIM module.
-  * @retval None
-  */
-void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim);
-/**
-  * @brief  Output Compare callback in non blocking mode 
-  * @param  htim: pointer to a TIM_HandleTypeDef structure that contains
-  *                the configuration information for TIM module.
-  * @retval None
-  */
-void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim);
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
 
@@ -202,7 +115,8 @@ int main(void)
   MX_TIM4_Init();
 
   /* USER CODE BEGIN 2 */
-HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);
+	
+	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);
 
   /* USER CODE END 2 */
 
@@ -214,39 +128,7 @@ HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);
 
   /* USER CODE BEGIN 3 */
 
-//
-/*
-int attack = quarter/7;
-int decay = quarter/5;
-int sustain = quarter/3;
-int release = quarter*3/2;
-
-for(int i=2;i<8;i++)	
-{
-	//tone
-	//CHPSC[i];ADSR=39;
-	//HAL_Delay(641);
-	CHPSC[i];
-	//attack
-	for(int i=1;i<ARRVAL-1;i++){
-		ADSR=i;
-		HAL_Delay(attack/ARRVAL);
-	}
-	//decay
-	for(int i=ARRVAL;i>ARRVAL/6;i--){
-		ADSR--;
-		HAL_Delay(decay/(ARRVAL/4));
-	}
-	//sustain
-	HAL_Delay(sustain);
-	//release
-	for(int i=ARRVAL;i>0;i--){
-		ADSR--;
-		HAL_Delay(release/(ARRVAL*5/6));
-	}
-}*/
-//arr 78 ccr1 39
-	// zelda's lullaby
+	/*// zelda's lullaby
 	int quarter = 545;
 	// A
 	CHPSC[2];HALFN;
@@ -313,9 +195,213 @@ for(int i=2;i<8;i++)
 	NONOTE;QUARN;
 	
 	NONOTE;HAL_Delay(1000);
+*/
 
-	// green greens (kirby)
-	quarter = 350;
+	
+	playKirbyMusic();
+	HAL_Delay(1000);
+	playTetrisMusic();
+	
+	}
+	/* USER CODE END 3 */
+}
+
+/** System Clock Configuration
+*/
+void SystemClock_Config(void)
+{
+
+  RCC_OscInitTypeDef RCC_OscInitStruct;
+  RCC_ClkInitTypeDef RCC_ClkInitStruct;
+
+    /**Configure the main internal regulator output voltage 
+    */
+  __HAL_RCC_PWR_CLK_ENABLE();
+
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
+
+    /**Initializes the CPU, AHB and APB busses clocks 
+    */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.HSICalibrationValue = 16;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+  RCC_OscInitStruct.PLL.PLLM = 8;
+  RCC_OscInitStruct.PLL.PLLN = 84;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  RCC_OscInitStruct.PLL.PLLQ = 4;
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+    /**Initializes the CPU, AHB and APB busses clocks 
+    */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+    /**Configure the Systick interrupt time 
+    */
+  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
+
+    /**Configure the Systick 
+    */
+  HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
+
+  /* SysTick_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
+}
+
+/* TIM4 init function */
+static void MX_TIM4_Init(void)
+{
+
+  TIM_MasterConfigTypeDef sMasterConfig;
+  TIM_OC_InitTypeDef sConfigOC;
+
+  htim4.Instance = TIM4;
+  htim4.Init.Prescaler = 0;
+  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim4.Init.Period = 78;
+  htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  if (HAL_TIM_PWM_Init(&htim4) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 39;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+  HAL_TIM_MspPostInit(&htim4);
+
+}
+
+/** Pinout Configuration
+*/
+static void MX_GPIO_Init(void)
+{
+
+  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+
+}
+
+/* USER CODE BEGIN 4 */
+
+void HAL_SYSTICK_Callback(void){
+	if(playMusic){
+		if (sample>=arsize){
+			sample = 0;
+		}
+		if (dvp>=duration){
+			htim4.Instance->PSC=scale[notes[sample]];
+			duration = times[sample];
+			sample++;
+			dvp=0;
+		}
+		dvp++;
+	}
+}
+
+void playTetrisMusic(void){
+	arsize = 62;
+	scale=tetrisScale;
+	notes=tetrisNotes;
+	times=tetrisTimes;
+	playMusic = 1;
+	/*
+	CHPSC4[15];QUARN;
+	CHPSC4[12];EIGHN;
+	CHPSC4[13];EIGHN;
+	CHPSC4[14];QUARN;
+	CHPSC4[13];EIGHN;
+	CHPSC4[12];EIGHN;
+	CHPSC4[11];QUARNS;
+	CHPSC4[11];EIGHN;
+	CHPSC4[13];EIGHN;
+	CHPSC4[15];QUARN;
+	CHPSC4[14];EIGHN;
+	CHPSC4[13];EIGHN;
+	CHPSC4[12];QUARNS;
+	CHPSC4[12];EIGHN;
+	CHPSC4[13];EIGHN;
+	CHPSC4[14];QUARN;
+	CHPSC4[15];QUARN;
+	CHPSC4[13];QUARN;
+	CHPSC4[11];QUARNS;
+	CHPSC4[11];QUARN;
+	NONOTE;QUARN;
+	
+	CHPSC4[14];DOTQN;
+	CHPSC4[16];EIGHN;
+	CHPSC4[18];QUARN;
+	CHPSC4[17];EIGHN;
+	CHPSC4[16];EIGHN;
+	CHPSC4[15];DOTQN;
+	CHPSC4[13];EIGHN;
+	CHPSC4[15];QUARN;
+	CHPSC4[14];EIGHN;
+	CHPSC4[13];EIGHN;
+	CHPSC4[12];QUARNS;
+	CHPSC4[12];EIGHN;
+	CHPSC4[13];EIGHN;
+	CHPSC4[14];QUARN;
+	CHPSC4[15];QUARN;
+	CHPSC4[13];QUARN;
+	CHPSC4[11];QUARNS;
+	CHPSC4[11];QUARN;
+	NONOTE;QUARN;
+	
+	CHPSC4[8];HALFN;
+	CHPSC4[6];HALFN;
+	CHPSC4[7];HALFN;
+	CHPSC4[5];HALFN;
+	CHPSC4[6];HALFN;
+	CHPSC4[4];HALFN;
+	CHPSC4[3];HALFN;
+	CHPSC4[5];HALFN;
+	
+	CHPSC4[8];HALFN;
+	CHPSC4[6];HALFN;
+	CHPSC4[7];HALFN;
+	CHPSC4[5];HALFN;
+	CHPSC4[6];QUARN;
+	CHPSC4[8];QUARN;
+	CHPSC4[11];QUARN;
+	CHPSC4[11];QUARNS;
+	CHPSC4[10];WHOLN;*/
+};
+
+void playKirbyMusic(void){
+	arsize = 149;
+	scale=kirbyScale;
+	notes=kirbyNotes;
+	times=kirbyTimes;
+	playMusic = 1;
+	/*
 	// A
 	CHPSC2[5];TRIPA;
 	CHPSC2[5];TRIPB;
@@ -430,201 +516,7 @@ for(int i=2;i<8;i++)
 	CHPSC2[12];QUARN;
 	
 	NONOTE;HAL_Delay(1000);
-	
-	// Tetris
-	quarter = 375;
-	// A
-	CHPSC4[15];QUARN;
-	CHPSC4[12];EIGHN;
-	CHPSC4[13];EIGHN;
-	CHPSC4[14];QUARN;
-	CHPSC4[13];EIGHN;
-	CHPSC4[12];EIGHN;
-	CHPSC4[11];QUARNS;
-	CHPSC4[11];EIGHN;
-	CHPSC4[13];EIGHN;
-	CHPSC4[15];QUARN;
-	CHPSC4[14];EIGHN;
-	CHPSC4[13];EIGHN;
-	CHPSC4[12];QUARNS;
-	CHPSC4[12];EIGHN;
-	CHPSC4[13];EIGHN;
-	CHPSC4[14];QUARN;
-	CHPSC4[15];QUARN;
-	CHPSC4[13];QUARN;
-	CHPSC4[11];QUARNS;
-	CHPSC4[11];QUARN;
-	NONOTE;QUARN;
-	
-	CHPSC4[14];DOTQN;
-	CHPSC4[16];EIGHN;
-	CHPSC4[18];QUARN;
-	CHPSC4[17];EIGHN;
-	CHPSC4[16];EIGHN;
-	CHPSC4[15];DOTQN;
-	CHPSC4[13];EIGHN;
-	CHPSC4[15];QUARN;
-	CHPSC4[14];EIGHN;
-	CHPSC4[13];EIGHN;
-	
-	CHPSC4[12];QUARNS;
-	CHPSC4[12];EIGHN;
-	CHPSC4[13];EIGHN;
-	CHPSC4[14];QUARN;
-	CHPSC4[15];QUARN;
-	CHPSC4[13];QUARN;
-	CHPSC4[11];QUARNS;
-	CHPSC4[11];QUARN;
-	NONOTE;QUARN;
-	CHPSC4[8];HALFN;
-	CHPSC4[6];HALFN;
-	CHPSC4[7];HALFN;
-	CHPSC4[5];HALFN;
-	
-	CHPSC4[6];HALFN;
-	CHPSC4[4];HALFN;
-	CHPSC4[3];HALFN; // sharp this
-	CHPSC4[5];HALFN;
-	
-	CHPSC4[8];HALFN;
-	CHPSC4[6];HALFN;
-	CHPSC4[7];HALFN;
-	CHPSC4[5];HALFN;
-	CHPSC4[6];QUARN;
-	CHPSC4[8];QUARN;
-	CHPSC4[11];QUARN;
-	CHPSC4[11];QUARNS;
-	CHPSC4[10];WHOLN; // sharp this
-	
-	NONOTE;HAL_Delay(1000);
-	
-	}
-	/* USER CODE END 3 */
-}
-
-/** System Clock Configuration
-*/
-void SystemClock_Config(void)
-{
-
-  RCC_OscInitTypeDef RCC_OscInitStruct;
-  RCC_ClkInitTypeDef RCC_ClkInitStruct;
-
-    /**Configure the main internal regulator output voltage 
-    */
-  __HAL_RCC_PWR_CLK_ENABLE();
-
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
-
-    /**Initializes the CPU, AHB and APB busses clocks 
-    */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = 16;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLM = 8;
-  RCC_OscInitStruct.PLL.PLLN = 84;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
-  RCC_OscInitStruct.PLL.PLLQ = 4;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-
-    /**Initializes the CPU, AHB and APB busses clocks 
-    */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-
-    /**Configure the Systick interrupt time 
-    */
-  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
-
-    /**Configure the Systick 
-    */
-  HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
-
-  /* SysTick_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
-}
-
-/* TIM4 init function */
-static void MX_TIM4_Init(void)
-{
-
-  TIM_MasterConfigTypeDef sMasterConfig;
-  TIM_OC_InitTypeDef sConfigOC;
-
-  htim4.Instance = TIM4;
-  htim4.Init.Prescaler = /*1704*//*23862*/0;
-  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 78;
-  htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  if (HAL_TIM_PWM_Init(&htim4) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-
-  sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 39;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-
-  HAL_TIM_MspPostInit(&htim4);
-
-}
-
-/** Pinout Configuration
-*/
-static void MX_GPIO_Init(void)
-{
-
-  /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOB_CLK_ENABLE();
-
-}
-
-/* USER CODE BEGIN 4 */
-/**
-  * @brief  PWM Pulse finished callback in non blocking mode 
-  * @param  htim: pointer to a TIM_HandleTypeDef structure that contains
-  *                the configuration information for TIM module.
-  * @retval None
-  */
-void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim){
-	/*sample+=1;
-	if (sample>tablesize) sample=0;
-	htim4.Instance->CCR1 = sintable[sample];*/
-}
-/**
-  * @brief  Output Compare callback in non blocking mode 
-  * @param  htim: pointer to a TIM_HandleTypeDef structure that contains
-  *                the configuration information for TIM module.
-  * @retval None
-  */
-void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim){
-	
+	*/
 }
 /* USER CODE END 4 */
 
