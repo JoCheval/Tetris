@@ -117,7 +117,16 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);
-
+	
+	/*
+	*  these will just overwrite each other...
+	*  in order to make it work right I guess you need a button
+	*  or something that will tell the controller to switch
+	*  to a new song
+	*/
+	//playKirbyMusic();
+	playTetrisMusic();
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -198,9 +207,6 @@ int main(void)
 */
 
 	
-	playKirbyMusic();
-	HAL_Delay(1000);
-	playTetrisMusic();
 	
 	}
 	/* USER CODE END 3 */
@@ -327,6 +333,7 @@ void HAL_SYSTICK_Callback(void){
 }
 
 void playTetrisMusic(void){
+	sample=0;dvp=0;
 	arsize = 62;
 	scale=tetrisScale;
 	notes=tetrisNotes;
@@ -396,6 +403,7 @@ void playTetrisMusic(void){
 };
 
 void playKirbyMusic(void){
+	sample=0;dvp=0;
 	arsize = 149;
 	scale=kirbyScale;
 	notes=kirbyNotes;
