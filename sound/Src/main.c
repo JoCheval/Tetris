@@ -42,6 +42,9 @@
 
 /* USER CODE BEGIN Includes */
 
+const int n1quarter = 600;
+const int n2quarter = 300;
+const int n3quarter = 300;
 const int tquarter = 375;
 const int kquarter = 350;
 const int zquarter = 215;
@@ -75,6 +78,9 @@ static void MX_GPIO_Init(void);
 static void MX_TIM4_Init(void);                                    
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 HAL_StatusTypeDef HAL_TIM_PWM_Start(TIM_HandleTypeDef *htim, uint32_t Channel);
+void playNoise1(void);
+void playNoise2(void);
+void playNoise3(void);
 void playTetrisMusic(void);
 void playKirbyMusic(void);
 void playZeldaMusic(void); // plays new zelda song, not old one
@@ -121,7 +127,6 @@ int main(void)
 	
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);
 	
-	
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -131,7 +136,6 @@ int main(void)
   /* USER CODE END WHILE */
 	
 	/* USER CODE BEGIN 3 */
-	
 	playTunes();
   
 	/*// zelda's lullaby
@@ -328,6 +332,31 @@ void HAL_SYSTICK_Callback(void){
 		}
 		dvp++;
 	}
+}
+
+void playNoise1(void){
+	sample=0;dvp=0;songEnd=0;
+	arsize = sizeof(noise1Times)/4;
+	scale=noiseScale;
+	notes=noise1Notes;
+	times=noise1Times;
+	playMusic = 1;
+}
+void playNoise2(void){
+	sample=0;dvp=0;songEnd=0;
+	arsize = sizeof(noise2Times)/4;
+	scale=noiseScale;
+	notes=noise2Notes;
+	times=noise2Times;
+	playMusic = 1;
+}
+void playNoise3(void){
+	sample=0;dvp=0;songEnd=0;
+	arsize = sizeof(noise3Times)/4;
+	scale=noiseScale;
+	notes=noise3Notes;
+	times=noise3Times;
+	playMusic = 1;
 }
 
 void playTetrisMusic(void){
@@ -539,9 +568,9 @@ void playTunes(void){
 		static int ctr = 0;
 		int repNumber = 1;
 		ctr++;
-		if (ctr<=repNumber)	playTetrisMusic();
-		else if (ctr<=repNumber*2) playZeldaMusic();
-		else if (ctr<=repNumber*3) playKirbyMusic();
+		if (ctr<=repNumber)	/*playNoise3();*/playTetrisMusic();
+		else if (ctr<=repNumber*2) /*playNoise2();*/playZeldaMusic();
+		else if (ctr<=repNumber*3) /*playNoise1();*/playKirbyMusic();
 		else ctr = 0;
 	}
 }

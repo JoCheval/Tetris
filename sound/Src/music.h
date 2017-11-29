@@ -45,6 +45,7 @@ const int note3[9] = {
 #define DOTQS *3/2 - 50
 #define QUARS -50
 #define QUAR *1
+#define DOTE *3/4
 #define EIGHS /2 - 50
 #define EIGH /2
 #define SIXT /4
@@ -53,7 +54,7 @@ const int note3[9] = {
 #define TRIPB 50
 #define TRIPC /3
 
-const int note[15] = {
+const int note[] = {
 2746.252747, // G4
 2446.552448, // A4
 2179.535913, // B4
@@ -71,7 +72,18 @@ const int note[15] = {
 685.8219473, // G6
 };
 
-const int kirbyScale[27] = {
+const int noiseScale[] = {
+0, // no note
+2446.552448, // A4
+2309.200525, // A#4
+2179.535913, // B4
+2057.142526, // C5
+	
+544.1312189, // B6
+407.3863895 // E7
+};
+
+const int kirbyScale[] = {
 0, // no note
 1729.691968, // Eb5
 2057.142526, // C5
@@ -102,7 +114,7 @@ const int kirbyScale[27] = {
 4115.206387
 };
 
-const int tetrisScale[19] = {
+const int tetrisScale[] = {
 0, // no note
 6533.330908,
 6166.591071,
@@ -139,7 +151,31 @@ const int zeldaScale[] = {
 685.8219473, // G6
 };
 
-const char tetrisNotes[62] = {
+const char noise1Notes[] = {
+	1,2,3,4,0
+};
+
+const int noise1Times[] = {
+	n1quarter QUAR,n1quarter QUAR,n1quarter QUAR,n1quarter DOTH,n1quarter/2
+};
+
+const char noise2Notes[] = {
+	4,0,4,0,4,2,4,0
+};
+
+const int noise2Times[] = {
+	n2quarter EIGH,n2quarter DOTE,n2quarter EIGHS,STAC,
+	n2quarter EIGH,n2quarter EIGH,n2quarter HALF,n2quarter/2
+};
+const char noise3Notes[] = {
+	5,6,6,0
+};
+
+const int noise3Times[] = {
+	n3quarter EIGH,n3quarter DOTQ,n3quarter HALF,n3quarter/2
+};
+
+const char tetrisNotes[] = {
 	15,12,13,
 	14,13,12,
 	11,0,11,13,
@@ -156,10 +192,10 @@ const char tetrisNotes[62] = {
 	8,6,7,5,
 	6,4,3,5,
 	8,6,7,5,
-	6,8,11,0,10
+	6,8,11,0,10,0
 };
 
-const int tetrisTimes[62] = {
+const int tetrisTimes[] = {
 	tquarter QUAR,tquarter EIGH,tquarter EIGH,
 	tquarter QUAR,tquarter EIGH,tquarter EIGH,
 	tquarter QUARS,STAC,tquarter EIGH,tquarter EIGH,
@@ -176,10 +212,10 @@ const int tetrisTimes[62] = {
 	tquarter HALF,tquarter HALF,tquarter HALF,tquarter HALF,
 	tquarter HALF,tquarter HALF,tquarter HALF,tquarter HALF,
 	tquarter HALF,tquarter HALF,tquarter HALF,tquarter HALF,
-	tquarter QUAR,tquarter QUAR,tquarter HALFS,STAC,tquarter WHOL
+	tquarter QUAR,tquarter QUAR,tquarter HALFS,STAC,tquarter WHOL,tquarter EIGH
 };
 
-const char kirbyNotes[149] = {
+const char kirbyNotes[] = {
 	// A
 	6,0,6,9,0,
 	9,0,11,
@@ -205,10 +241,10 @@ const char kirbyNotes[149] = {
 	
 	// D
 	9,0,10,17,10,0,17,12,17,0,12,13,
-	12,0,13,9,0,9,0,10,17,10,0,17,12,17,0,12,10,13
+	12,0,13,9,0,9,0,10,17,10,0,17,12,17,0,12,10,13,0
 };
 
-const int kirbyTimes[149] = {
+const int kirbyTimes[] = {
 	kquarter TRIPA,TRIPB,kquarter TRIPC,kquarter DOTHS,STAC,
 	kquarter TRIPA,TRIPB,kquarter TRIPC,
 	kquarter EIGH,kquarter EIGH,kquarter EIGH,kquarter EIGH,kquarter QUAR,
@@ -239,45 +275,45 @@ const int kirbyTimes[149] = {
 	kquarter TRIPA,TRIPB,kquarter TRIPC,kquarter QUARS,STAC,
 	kquarter TRIPA,TRIPB,kquarter TRIPC,kquarter QUAR,
 	kquarter TRIPA,TRIPB,kquarter TRIPC,kquarter QUAR,
-	kquarter TRIPA,TRIPB,kquarter TRIPC,kquarter HALF,kquarter QUAR
+	kquarter TRIPA,TRIPB,kquarter TRIPC,kquarter HALF,kquarter QUAR,kquarter EIGH
 };
 
 const char zeldaNotes[] = {
-	3,5,6,3,5,6,
-	3,5,6,9,8,
+	3,0,5,0,6,3,0,5,0,6,
+	3,5,6,0,9,0,8,
 	6,7,6,4,2,2,
 	1,2,4,2,2,
 	
-	3,5,6,3,5,6,
-	3,5,6,9,8,
+	3,0,5,0,6,3,0,5,0,6,
+	3,5,6,0,9,0,8,
 	6,7,9,6,4,4,
 	6,4,1,2,2,
 	
 	1,2,3,4,5,6,7,6,2,2,
 	3,4,5,6,7,8,9,10,11,11,
 	1,2,3,4,5,6,7,6,2,2,
-	3,2,5,4,6,5,7,6,
-	8,7,9,8,10,9,
-	6,7,5,6,6,6,6
+	3,2,0,5,4,0,6,5,0,7,6,0,
+	8,7,0,9,8,0,10,9,0,
+	6,7,0,5,6,6,6,6,0
 };
 
 const int zeldaTimes[] = {
-	zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter QUAR,zquarter QUAR,zquarter HALF,
-	zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter HALF,
+	zquarter QUARS,STAC,zquarter QUARS,STAC,zquarter HALF,zquarter QUARS,STAC,zquarter QUARS,STAC,zquarter HALF,
+	zquarter QUAR,zquarter QUAR,zquarter QUARS,STAC,zquarter QUARS,STAC,zquarter HALF,
 	zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter DOTH,
 	zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter WHOL,
 	
-	zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter QUAR,zquarter QUAR,zquarter HALF,
-	zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter HALF,
+	zquarter QUARS,STAC,zquarter QUARS,STAC,zquarter HALF,zquarter QUARS,STAC,zquarter QUARS,STAC,zquarter HALF,
+	zquarter QUAR,zquarter QUAR,zquarter QUARS,STAC,zquarter QUARS,STAC,zquarter HALF,
 	zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter DOTH,
 	zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter WHOL,
 	
 	zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter WHOL,
 	zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter WHOL,
 	zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter WHOL,
-	zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,
-	zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,
-	zquarter EIGH,zquarter QUAR,zquarter EIGH,zquarter WHOL,zquarter WHOL,zquarter WHOL,zquarter WHOL
+	zquarter QUAR,zquarter QUARS,STAC,zquarter QUAR,zquarter QUARS,STAC,zquarter QUAR,zquarter QUARS,STAC,zquarter QUAR,zquarter QUARS,STAC,
+	zquarter QUAR,zquarter QUARS,STAC,zquarter QUAR,zquarter QUARS,STAC,zquarter QUAR,zquarter QUARS,STAC,
+	zquarter EIGH,zquarter QUARS,STAC,zquarter EIGH,zquarter WHOL,zquarter WHOL,zquarter WHOL,zquarter HALF,zquarter EIGH
 };
 
 #endif
