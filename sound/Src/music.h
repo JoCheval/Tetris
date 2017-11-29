@@ -1,3 +1,6 @@
+#ifndef __MUSIC_H
+#define __MUSIC_H
+
 // relics of the past
 /*
 #define NONOTE htim4.Instance->PSC=0
@@ -121,6 +124,21 @@ const int tetrisScale[19] = {
 1222.776224 // A5
 };
 
+const int zeldaScale[] = {
+0, // no note
+1832.591128, // D5
+1632.557948, // E5
+1540.853616, // F5
+1372.643895, // G5
+1222.776224, // A5
+1089.256919, // B5
+1028.071263, // C6
+915.7955638, // D6
+815.7727791, // E6
+769.932327, // F6
+685.8219473, // G6
+};
+
 const char tetrisNotes[62] = {
 	15,12,13,
 	14,13,12,
@@ -223,3 +241,43 @@ const int kirbyTimes[149] = {
 	kquarter TRIPA,TRIPB,kquarter TRIPC,kquarter QUAR,
 	kquarter TRIPA,TRIPB,kquarter TRIPC,kquarter HALF,kquarter QUAR
 };
+
+const char zeldaNotes[] = {
+	3,5,6,3,5,6,
+	3,5,6,9,8,
+	6,7,6,4,2,2,
+	1,2,4,2,2,
+	
+	3,5,6,3,5,6,
+	3,5,6,9,8,
+	6,7,9,6,4,4,
+	6,4,1,2,2,
+	
+	1,2,3,4,5,6,7,6,2,2,
+	3,4,5,6,7,8,9,10,11,11,
+	1,2,3,4,5,6,7,6,2,2,
+	3,2,5,4,6,5,7,6,
+	8,7,9,8,10,9,
+	6,7,5,6,6,6,6
+};
+
+const int zeldaTimes[] = {
+	zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter QUAR,zquarter QUAR,zquarter HALF,
+	zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter HALF,
+	zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter DOTH,
+	zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter WHOL,
+	
+	zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter QUAR,zquarter QUAR,zquarter HALF,
+	zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter HALF,
+	zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter DOTH,
+	zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter WHOL,
+	
+	zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter WHOL,
+	zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter WHOL,
+	zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter WHOL,
+	zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,
+	zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,zquarter QUAR,
+	zquarter EIGH,zquarter QUAR,zquarter EIGH,zquarter WHOL,zquarter WHOL,zquarter WHOL,zquarter WHOL
+};
+
+#endif

@@ -44,6 +44,7 @@
 
 const int tquarter = 375;
 const int kquarter = 350;
+const int zquarter = 215;
 #include "music.h"
 
 /* USER CODE END Includes */
@@ -57,6 +58,7 @@ TIM_HandleTypeDef htim4;
 
 char sample = 0;
 volatile int dvp;
+volatile int songEnd = 1;
 int duration;
 int arsize;
 char playMusic = 1;
@@ -75,7 +77,8 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 HAL_StatusTypeDef HAL_TIM_PWM_Start(TIM_HandleTypeDef *htim, uint32_t Channel);
 void playTetrisMusic(void);
 void playKirbyMusic(void);
-//void playZeldaMusic(void); // functionality not implemented cuz it's too slow
+void playZeldaMusic(void); // plays new zelda song, not old one
+void playTunes(void); // plays all songs in a loop
 void HAL_SYSTICK_Callback(void);
 
 /* USER CODE BEGIN PFP */
@@ -118,14 +121,6 @@ int main(void)
 	
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);
 	
-	/*
-	*  these will just overwrite each other...
-	*  in order to make it work right I guess you need a button
-	*  or something that will tell the controller to switch
-	*  to a new song
-	*/
-	//playKirbyMusic();
-	playTetrisMusic();
 	
   /* USER CODE END 2 */
 
@@ -134,9 +129,11 @@ int main(void)
   while (1)
   {
   /* USER CODE END WHILE */
-
-  /* USER CODE BEGIN 3 */
-
+	
+	/* USER CODE BEGIN 3 */
+	
+	playTunes();
+  
 	/*// zelda's lullaby
 	int quarter = 545;
 	// A
@@ -321,6 +318,7 @@ void HAL_SYSTICK_Callback(void){
 	if(playMusic){
 		if (sample>=arsize){
 			sample = 0;
+			songEnd = 1;
 		}
 		if (dvp>=duration){
 			htim4.Instance->PSC=scale[notes[sample]];
@@ -333,8 +331,8 @@ void HAL_SYSTICK_Callback(void){
 }
 
 void playTetrisMusic(void){
-	sample=0;dvp=0;
-	arsize = 62;
+	sample=0;dvp=0;songEnd=0;
+	arsize = sizeof(tetrisTimes)/4;
 	scale=tetrisScale;
 	notes=tetrisNotes;
 	times=tetrisTimes;
@@ -403,8 +401,8 @@ void playTetrisMusic(void){
 };
 
 void playKirbyMusic(void){
-	sample=0;dvp=0;
-	arsize = 149;
+	sample=0;dvp=0;songEnd=0;
+	arsize = sizeof(kirbyTimes)/4;
 	scale=kirbyScale;
 	notes=kirbyNotes;
 	times=kirbyTimes;
@@ -525,6 +523,27 @@ void playKirbyMusic(void){
 	
 	NONOTE;HAL_Delay(1000);
 	*/
+}
+
+void playZeldaMusic(void){
+	sample=0;dvp=0;songEnd=0;
+	arsize = sizeof(zeldaTimes)/4;
+	scale=zeldaScale;
+	notes=zeldaNotes;
+	times=zeldaTimes;
+	playMusic = 1;
+}
+
+void playTunes(void){
+	if (songEnd){
+		static int ctr = 0;
+		int repNumber = 1;
+		ctr++;
+		if (ctr<=repNumber)	playTetrisMusic();
+		else if (ctr<=repNumber*2) playZeldaMusic();
+		else if (ctr<=repNumber*3) playKirbyMusic();
+		else ctr = 0;
+	}
 }
 /* USER CODE END 4 */
 
