@@ -1,41 +1,6 @@
 #ifndef __MUSIC_H
 #define __MUSIC_H
 
-// relics of the past
-/*
-#define NONOTE htim4.Instance->PSC=0
-#define DOTEN HAL_Delay(quarter*3/4);
-#define TRIPA HAL_Delay(quarter*2/3 - 50);NONOTE;HAL_Delay(50);
-#define TRIPB HAL_Delay(quarter/3);
-#define EIGHN HAL_Delay(quarter/2);
-#define EIGHNS HAL_Delay(quarter/2 -50);NONOTE;HAL_Delay(50);
-#define DOTQN HAL_Delay(quarter*3/2);
-#define QUARN HAL_Delay(quarter);
-#define QUARNS HAL_Delay(quarter-50);NONOTE;HAL_Delay(50);
-#define DOTHN HAL_Delay(quarter*3);
-#define HALFN HAL_Delay(quarter*2);
-#define WHOLN HAL_Delay(quarter*4);
-#define SIXN HAL_Delay(quarter*3-50);NONOTE;HAL_Delay(50);
-#define CHPSC htim4.Instance->PSC=note
-#define CHPSC2 htim4.Instance->PSC=note2
-#define CHPSC3 htim4.Instance->PSC=note3
-#define CHPSC4 htim4.Instance->PSC=note4
-#define ARRVAL htim4.Instance->ARR
-#define ADSR htim4.Instance->CCR1
-*/
-/*
-const int note3[9] = {
-538.2335483,
-8231.727444, // C3
-7333.489389,
-6533.330908, // E3
-6166.591071,
-5493.505495, // G3
-4894.104895,
-4360.071827,
-4115.206387
-};*/
-
 #define WHOL *4
 #define DOTH *3
 #define DOTHS *3 - 50
@@ -53,24 +18,6 @@ const int note3[9] = {
 #define TRIPA *2/3 - 50
 #define TRIPB 50
 #define TRIPC /3
-
-const int note[] = {
-2746.252747, // G4
-2446.552448, // A4
-2179.535913, // B4
-2057.142526, // C5
-1832.591128, // D5
-1632.557948, // E5
-1454.321122, // F#5
-1372.643895, // G5
-1222.776224, // A5
-1089.256919, // B5
-1028.071263, // C6
-915.7955638, // D6
-815.7727791, // E6
-726.6605609, // F#6
-685.8219473, // G6
-};
 
 const int noiseScale[] = {
 0, // no note
@@ -156,7 +103,7 @@ const char noise1Notes[] = {
 };
 
 const int noise1Times[] = {
-	n1quarter QUAR,n1quarter QUAR,n1quarter QUAR,n1quarter DOTH,n1quarter/2
+	n1quarter QUAR,n1quarter QUAR,n1quarter QUAR,n1quarter DOTH,n1quarter SIXT
 };
 
 const char noise2Notes[] = {
@@ -165,14 +112,14 @@ const char noise2Notes[] = {
 
 const int noise2Times[] = {
 	n2quarter EIGH,n2quarter DOTE,n2quarter EIGHS,STAC,
-	n2quarter EIGH,n2quarter EIGH,n2quarter HALF,n2quarter/2
+	n2quarter EIGH,n2quarter EIGH,n2quarter HALF,n2quarter SIXT
 };
 const char noise3Notes[] = {
 	5,6,6,0
 };
 
 const int noise3Times[] = {
-	n3quarter EIGH,n3quarter DOTQ,n3quarter HALF,n3quarter/2
+	n3quarter EIGH,n3quarter DOTE,n3quarter EIGH,n3quarter SIXT
 };
 
 const char tetrisNotes[] = {
@@ -212,7 +159,7 @@ const int tetrisTimes[] = {
 	tquarter HALF,tquarter HALF,tquarter HALF,tquarter HALF,
 	tquarter HALF,tquarter HALF,tquarter HALF,tquarter HALF,
 	tquarter HALF,tquarter HALF,tquarter HALF,tquarter HALF,
-	tquarter QUAR,tquarter QUAR,tquarter HALFS,STAC,tquarter WHOL,tquarter EIGH
+	tquarter QUAR,tquarter QUAR,tquarter HALFS,STAC,tquarter WHOL,tquarter SIXT
 };
 
 const char kirbyNotes[] = {
@@ -275,7 +222,7 @@ const int kirbyTimes[] = {
 	kquarter TRIPA,TRIPB,kquarter TRIPC,kquarter QUARS,STAC,
 	kquarter TRIPA,TRIPB,kquarter TRIPC,kquarter QUAR,
 	kquarter TRIPA,TRIPB,kquarter TRIPC,kquarter QUAR,
-	kquarter TRIPA,TRIPB,kquarter TRIPC,kquarter HALF,kquarter QUAR,kquarter EIGH
+	kquarter TRIPA,TRIPB,kquarter TRIPC,kquarter HALF,kquarter QUAR,kquarter SIXT
 };
 
 const char zeldaNotes[] = {
@@ -313,7 +260,7 @@ const int zeldaTimes[] = {
 	zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter QUAR,zquarter QUAR,zquarter HALF,zquarter WHOL,
 	zquarter QUAR,zquarter QUARS,STAC,zquarter QUAR,zquarter QUARS,STAC,zquarter QUAR,zquarter QUARS,STAC,zquarter QUAR,zquarter QUARS,STAC,
 	zquarter QUAR,zquarter QUARS,STAC,zquarter QUAR,zquarter QUARS,STAC,zquarter QUAR,zquarter QUARS,STAC,
-	zquarter EIGH,zquarter QUARS,STAC,zquarter EIGH,zquarter WHOL,zquarter WHOL,zquarter WHOL,zquarter HALF,zquarter EIGH
+	zquarter EIGH,zquarter QUARS,STAC,zquarter EIGH,zquarter WHOL,zquarter WHOL,zquarter WHOL,zquarter HALF,zquarter SIXT
 };
 
 #endif

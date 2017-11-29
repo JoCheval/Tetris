@@ -59,15 +59,20 @@ TIM_HandleTypeDef htim4;
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 
-char sample = 0;
+volatile char sample = 0;
+volatile char prevSample;
 volatile int dvp;
 volatile int songEnd = 1;
+int song;
 int duration;
 int arsize;
-char playMusic = 1;
+char playMusic = 0;
 const int *scale;
 const char *notes;
 const int *times;
+const int *prevScale;
+const char *prevNotes;
+const int *prevTimes;
 
 /* USER CODE END PV */
 
@@ -128,7 +133,7 @@ int main(void)
 	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);
 	
   /* USER CODE END 2 */
-
+  
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -137,7 +142,6 @@ int main(void)
 	
 	/* USER CODE BEGIN 3 */
 	playTunes();
-  
 	/*// zelda's lullaby
 	int quarter = 545;
 	// A
@@ -335,24 +339,30 @@ void HAL_SYSTICK_Callback(void){
 }
 
 void playNoise1(void){
-	sample=0;dvp=0;songEnd=0;
+	prevSample = sample;
+	sample=0;dvp=duration-20;songEnd=0;
 	arsize = sizeof(noise1Times)/4;
+	
 	scale=noiseScale;
 	notes=noise1Notes;
 	times=noise1Times;
 	playMusic = 1;
 }
 void playNoise2(void){
-	sample=0;dvp=0;songEnd=0;
+	prevSample = sample;
+	sample=0;dvp=duration-20;songEnd=0;
 	arsize = sizeof(noise2Times)/4;
+	
 	scale=noiseScale;
 	notes=noise2Notes;
 	times=noise2Times;
 	playMusic = 1;
 }
 void playNoise3(void){
-	sample=0;dvp=0;songEnd=0;
+	prevSample = sample;
+	sample=0;dvp=duration-20;songEnd=0;
 	arsize = sizeof(noise3Times)/4;
+	
 	scale=noiseScale;
 	notes=noise3Notes;
 	times=noise3Times;
@@ -360,202 +370,25 @@ void playNoise3(void){
 }
 
 void playTetrisMusic(void){
-	sample=0;dvp=0;songEnd=0;
+	sample=0;dvp=0;songEnd=0;song=1;
 	arsize = sizeof(tetrisTimes)/4;
 	scale=tetrisScale;
 	notes=tetrisNotes;
 	times=tetrisTimes;
 	playMusic = 1;
-	/*
-	CHPSC4[15];QUARN;
-	CHPSC4[12];EIGHN;
-	CHPSC4[13];EIGHN;
-	CHPSC4[14];QUARN;
-	CHPSC4[13];EIGHN;
-	CHPSC4[12];EIGHN;
-	CHPSC4[11];QUARNS;
-	CHPSC4[11];EIGHN;
-	CHPSC4[13];EIGHN;
-	CHPSC4[15];QUARN;
-	CHPSC4[14];EIGHN;
-	CHPSC4[13];EIGHN;
-	CHPSC4[12];QUARNS;
-	CHPSC4[12];EIGHN;
-	CHPSC4[13];EIGHN;
-	CHPSC4[14];QUARN;
-	CHPSC4[15];QUARN;
-	CHPSC4[13];QUARN;
-	CHPSC4[11];QUARNS;
-	CHPSC4[11];QUARN;
-	NONOTE;QUARN;
-	
-	CHPSC4[14];DOTQN;
-	CHPSC4[16];EIGHN;
-	CHPSC4[18];QUARN;
-	CHPSC4[17];EIGHN;
-	CHPSC4[16];EIGHN;
-	CHPSC4[15];DOTQN;
-	CHPSC4[13];EIGHN;
-	CHPSC4[15];QUARN;
-	CHPSC4[14];EIGHN;
-	CHPSC4[13];EIGHN;
-	CHPSC4[12];QUARNS;
-	CHPSC4[12];EIGHN;
-	CHPSC4[13];EIGHN;
-	CHPSC4[14];QUARN;
-	CHPSC4[15];QUARN;
-	CHPSC4[13];QUARN;
-	CHPSC4[11];QUARNS;
-	CHPSC4[11];QUARN;
-	NONOTE;QUARN;
-	
-	CHPSC4[8];HALFN;
-	CHPSC4[6];HALFN;
-	CHPSC4[7];HALFN;
-	CHPSC4[5];HALFN;
-	CHPSC4[6];HALFN;
-	CHPSC4[4];HALFN;
-	CHPSC4[3];HALFN;
-	CHPSC4[5];HALFN;
-	
-	CHPSC4[8];HALFN;
-	CHPSC4[6];HALFN;
-	CHPSC4[7];HALFN;
-	CHPSC4[5];HALFN;
-	CHPSC4[6];QUARN;
-	CHPSC4[8];QUARN;
-	CHPSC4[11];QUARN;
-	CHPSC4[11];QUARNS;
-	CHPSC4[10];WHOLN;*/
 };
 
 void playKirbyMusic(void){
-	sample=0;dvp=0;songEnd=0;
+	sample=0;dvp=0;songEnd=0;song=2;
 	arsize = sizeof(kirbyTimes)/4;
 	scale=kirbyScale;
 	notes=kirbyNotes;
 	times=kirbyTimes;
 	playMusic = 1;
-	/*
-	// A
-	CHPSC2[5];TRIPA;
-	CHPSC2[5];TRIPB;
-	CHPSC2[8];SIXN;
-	CHPSC2[8];TRIPA;
-	CHPSC2[10];TRIPB;
-	CHPSC2[12];EIGHN;
-	CHPSC2[15];EIGHN;
-	CHPSC2[14];EIGHN;
-	CHPSC2[13];EIGHN;
-	CHPSC2[12];QUARN;
-	CHPSC2[10];TRIPA;
-	CHPSC2[12];TRIPB;
-	CHPSC2[11];QUARN;
-	CHPSC2[9];TRIPA;
-	CHPSC2[10];TRIPB;
-	CHPSC2[9];QUARN;
-	CHPSC2[10];TRIPA;
-	CHPSC2[9];TRIPB;
-	CHPSC2[8];SIXN;
-	
-	// A
-	CHPSC2[5];TRIPA;
-	CHPSC2[5];TRIPB;
-	CHPSC2[8];SIXN;
-	CHPSC2[8];TRIPA;
-	CHPSC2[10];TRIPB;
-	CHPSC2[12];EIGHN;
-	CHPSC2[15];EIGHN;
-	CHPSC2[14];EIGHN;
-	CHPSC2[13];EIGHN;
-	CHPSC2[12];QUARN;
-	CHPSC2[10];TRIPA;
-	CHPSC2[12];TRIPB;
-	CHPSC2[11];QUARN;
-	CHPSC2[9];TRIPA;
-	CHPSC2[10];TRIPB;
-	CHPSC2[9];QUARN;
-	CHPSC2[10];TRIPA;
-	CHPSC2[9];TRIPB;
-	CHPSC2[8];SIXN;QUARNS;
-	
-	// B
-	CHPSC2[8];QUARN;
-	CHPSC2[9];EIGHN;
-	CHPSC2[10];QUARN;
-	CHPSC2[8];EIGHN;
-	CHPSC2[9];EIGHN;
-	CHPSC2[8];EIGHN;
-	// bass line
-	CHPSC3[1];EIGHN;
-	CHPSC3[5];EIGHNS;
-	CHPSC3[5];EIGHNS;
-	CHPSC3[5];EIGHNS;
-	CHPSC3[5];EIGHNS;
-	CHPSC3[5];EIGHNS;
-	CHPSC3[5];EIGHNS;
-	CHPSC3[5];EIGHNS;
-	CHPSC3[1];EIGHN;
-	CHPSC3[5];EIGHNS;
-	CHPSC3[5];EIGHNS;
-	CHPSC3[5];EIGHNS;
-	CHPSC3[5];EIGHNS;
-	CHPSC3[5];EIGHNS;
-	CHPSC3[5];EIGHNS;
-	CHPSC3[5];EIGHNS;
-	
-	// C
-	CHPSC2[0];QUARN;
-	CHPSC2[2];TRIPA;
-	CHPSC2[0];TRIPB;
-	CHPSC2[4];QUARN;
-	CHPSC2[0];TRIPA;
-	CHPSC2[4];TRIPB;
-	CHPSC2[5];QUARN;
-	CHPSC2[4];TRIPA;
-	CHPSC2[5];TRIPB;
-	CHPSC2[1];QUARNS;
-	CHPSC2[1];TRIPA;
-	CHPSC2[2];TRIPB;
-	CHPSC2[0];QUARN;
-	CHPSC2[2];TRIPA;
-	CHPSC2[0];TRIPB;
-	CHPSC2[4];QUARN;
-	CHPSC2[0];TRIPA;
-	CHPSC2[4];TRIPB;
-	CHPSC2[5];HALFN;
-	CHPSC2[8];QUARNS;
-	
-	// D
-	CHPSC2[8];TRIPA;
-	CHPSC2[9];TRIPB;
-	CHPSC2[16];QUARN;
-	CHPSC2[9];TRIPA;
-	CHPSC2[16];TRIPB;
-	CHPSC2[11];QUARN;
-	CHPSC2[16];TRIPA;
-	CHPSC2[11];TRIPB;
-	CHPSC2[12];QUARN;
-	CHPSC2[11];TRIPA;
-	CHPSC2[12];TRIPB;
-	CHPSC2[8];QUARNS;
-	CHPSC2[8];TRIPA;
-	CHPSC2[9];TRIPB;
-	CHPSC2[16];QUARN;
-	CHPSC2[9];TRIPA;
-	CHPSC2[16];TRIPB;
-	CHPSC2[11];QUARN;
-	CHPSC2[16];TRIPA;
-	CHPSC2[11];TRIPB;
-	CHPSC2[9];HALFN;
-	CHPSC2[12];QUARN;
-	
-	NONOTE;HAL_Delay(1000);
-	*/
 }
 
 void playZeldaMusic(void){
-	sample=0;dvp=0;songEnd=0;
+	sample=0;dvp=0;songEnd=0;song=3;
 	arsize = sizeof(zeldaTimes)/4;
 	scale=zeldaScale;
 	notes=zeldaNotes;
@@ -564,14 +397,40 @@ void playZeldaMusic(void){
 }
 
 void playTunes(void){
+	static int ctr = 0;
+	int repNumber = 2;
 	if (songEnd){
-		static int ctr = 0;
-		int repNumber = 1;
-		ctr++;
-		if (ctr<=repNumber)	/*playNoise3();*/playTetrisMusic();
-		else if (ctr<=repNumber*2) /*playNoise2();*/playZeldaMusic();
-		else if (ctr<=repNumber*3) /*playNoise1();*/playKirbyMusic();
-		else ctr = 0;
+		if (scale!=noiseScale){
+			ctr++;
+			if (ctr<=repNumber)	playTetrisMusic();
+			else if (ctr<=repNumber*2) playKirbyMusic();
+			else if (ctr<=repNumber*3) playZeldaMusic();
+			else ctr = 0;
+		}
+		if (scale == noiseScale){
+			sample=prevSample;/*dvp=0;*/songEnd=0;
+			switch (song){
+			case 1:
+				arsize = sizeof(tetrisTimes)/4;
+				scale=tetrisScale;
+				notes=tetrisNotes;
+				times=tetrisTimes;
+				break;
+			case 2:
+				arsize = sizeof(kirbyTimes)/4;
+				scale=kirbyScale;
+				notes=kirbyNotes;
+				times=kirbyTimes;
+				break;
+			case 3:
+				arsize = sizeof(zeldaTimes)/4;
+				scale=zeldaScale;
+				notes=zeldaNotes;
+				times=zeldaTimes;
+				break;
+			}
+			playMusic = 1;
+		}
 	}
 }
 /* USER CODE END 4 */
