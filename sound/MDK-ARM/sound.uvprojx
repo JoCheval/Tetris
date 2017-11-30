@@ -395,6 +395,11 @@
               <FileType>1</FileType>
               <FilePath>../Src/stm32f4xx_hal_msp.c</FilePath>
             </File>
+            <File>
+              <FileName>music.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Src\music.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
